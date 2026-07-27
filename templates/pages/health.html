@@ -1,0 +1,115 @@
+{% extends "layout.html" %}
+
+{% block title %}Health — {{ nav.app_name }}{% endblock %}
+
+{% block description %}Live status of the database and session store, plus runtime details.{% endblock %}
+
+{% block content %}
+<section class="page-head">
+  <div>
+    <p class="eyebrow">System status</p>
+    <h1 class="page-head__title">{{ status_label }}</h1>
+    <p class="page-head__lead">
+      Checked {{ server_time }} · uptime {{ uptime }}
+    </p>
+  </div>
+
+  <div class="page-head__action">
+    {% if healthy %}
+    <span class="badge badge--success">Healthy</span>
+    {% else %}
+    <span class="badge badge--warn">Degraded</span>
+    {% endif %}
+    <a class="btn btn--ghost btn--sm" href="/healthz.json">JSON</a>
+  </div>
+</section>
+
+<div class="grid grid--2">
+  <article class="card card--panel">
+    <header class="card__head">
+      <span class="card__icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 12h4l2-5 3 10 2-5h7" />
+        </svg>
+      </span>
+      <h2 class="card__title">Checks</h2>
+    </header>
+
+    <ul class="checks">
+      {% for check in checks %}
+      <li class="check">
+        <span class="check__dot {% if check.healthy %}check__dot--ok{% else %}check__dot--down{% endif %}" aria-hidden="true"></span>
+        <span class="check__body">
+          <strong>{{ check.name }}</strong>
+          <small>{{ check.detail }}</small>
+        </span>
+        <span class="check__meta">
+          {{ check.latency }}
+          {% if check.healthy %}
+          <span class="badge badge--success">up</span>
+          {% else %}
+          <span class="badge badge--warn">down</span>
+          {% endif %}
+        </span>
+      </li>
+      {% endfor %}
+    </ul>
+
+    <p class="card__note">
+      <code>/healthz</code> returns plain text for container probes,
+      <code>/healthz.json</code> returns the same checks as JSON.
+    </p>
+  </article>
+
+  <article class="card card--panel">
+    <header class="card__head">
+      <span class="card__icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="4" width="18" height="6" rx="2" />
+          <rect x="3" y="14" width="18" height="6" rx="2" />
+        </svg>
+      </span>
+      <h2 class="card__title">Runtime</h2>
+    </header>
+
+    <dl class="kv">
+      <div class="kv__row">
+        <dt>Version</dt>
+        <dd><code>{{ version }}</code></dd>
+      </div>
+      <div class="kv__row">
+        <dt>Environment</dt>
+        <dd><span class="badge">{{ environment }}</span></dd>
+      </div>
+      <div class="kv__row">
+        <dt>Timezone</dt>
+        <dd><code>{{ timezone }}</code></dd>
+      </div>
+      <div class="kv__row">
+        <dt>Server time</dt>
+        <dd>{{ server_time }}</dd>
+      </div>
+      <div class="kv__row">
+        <dt>Uptime</dt>
+        <dd>{{ uptime }}</dd>
+      </div>
+      <div class="kv__row">
+        <dt>Session store</dt>
+        <dd><span class="badge">{{ session_backend }}</span></dd>
+      </div>
+      <div class="kv__row">
+        <dt>Session lifetime</dt>
+        <dd>{{ session_ttl }}</dd>
+      </div>
+      <div class="kv__row">
+        <dt>Active sessions</dt>
+        <dd>{{ active_sessions }}</dd>
+      </div>
+      <div class="kv__row">
+        <dt>Registered users</dt>
+        <dd>{{ registered_users }}</dd>
+      </div>
+    </dl>
+  </article>
+</div>
+{% endblock %}

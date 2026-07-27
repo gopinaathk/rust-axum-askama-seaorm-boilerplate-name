@@ -1,0 +1,113 @@
+{% extends "layout.html" %}
+
+{% block title %}{{ nav.app_name }} — Axum + Askama starter{% endblock %}
+
+{% block description %}A server rendered Rust starter: Axum routing, Askama templates, SeaORM with Postgres, Alpine.js for interactions and database backed sessions.{% endblock %}
+
+{% block content %}
+<section class="hero">
+  <p class="eyebrow">Server rendered Rust</p>
+  <h1 class="hero__title">
+    Auth, sessions and templates,<br />
+    <span class="hero__accent">wired up already</span>
+  </h1>
+  <p class="hero__lead">
+    Axum for routing, Askama for type checked templates, SeaORM on Postgres, and Alpine.js for the
+    handful of places that need JavaScript. Registration, sign-in and Postgres backed sessions work
+    out of the box.
+  </p>
+
+  <div class="hero__actions">
+    {% if nav.authenticated %}
+    <a class="btn btn--primary" href="/dashboard">Open dashboard</a>
+    {% else %}
+    <a class="btn btn--primary" href="/register">Create an account</a>
+    <a class="btn btn--ghost" href="/login">Sign in</a>
+    {% endif %}
+  </div>
+
+  <dl class="stats">
+    <div class="stat">
+      <dt>Registered users</dt>
+      <dd>{{ user_count }}</dd>
+    </div>
+    <div class="stat">
+      <dt>Password hashing</dt>
+      <dd>Argon2id</dd>
+    </div>
+    <div class="stat">
+      <dt>Session store</dt>
+      <dd>Postgres</dd>
+    </div>
+  </dl>
+</section>
+
+<section class="section" aria-labelledby="whats-inside">
+  <h2 class="section__title" id="whats-inside">What's inside</h2>
+
+  <div class="grid grid--3">
+    <article class="card">
+      <span class="card__icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="11" width="18" height="10" rx="2" />
+          <path d="M8 11V7a4 4 0 0 1 8 0v4" />
+        </svg>
+      </span>
+      <h3 class="card__title">Session authentication</h3>
+      <p class="card__text">
+        Argon2id hashes, session id rotation on sign-in, CSRF tokens on every form and a signed-out
+        state you can actually see.
+      </p>
+    </article>
+
+    <article class="card">
+      <span class="card__icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <ellipse cx="12" cy="6" rx="8" ry="3" />
+          <path d="M4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6" />
+          <path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3" />
+        </svg>
+      </span>
+      <h3 class="card__title">SeaORM + migrations</h3>
+      <p class="card__text">
+        The database is created on first boot when it is missing, then migrations run automatically.
+        Entities mirror the schema one file at a time.
+      </p>
+    </article>
+
+    <article class="card">
+      <span class="card__icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 17V7l8 10 8-10v10" />
+        </svg>
+      </span>
+      <h3 class="card__title">Askama + Alpine.js</h3>
+      <p class="card__text">
+        Templates are compiled and type checked with your Rust code. Alpine handles theme switching,
+        password visibility and form state without a build step.
+      </p>
+    </article>
+  </div>
+</section>
+
+<section class="section" aria-labelledby="quickstart">
+  <h2 class="section__title" id="quickstart">Quick start</h2>
+
+  <div class="terminal" x-data="copyable">
+    <div class="terminal__bar">
+      <span class="terminal__dots" aria-hidden="true"></span>
+      <span class="terminal__label">shell</span>
+      <button class="btn btn--ghost btn--sm" type="button" x-on:click="copy($refs.snippet.innerText)">
+        <span x-text="copied ? 'Copied' : 'Copy'">Copy</span>
+      </button>
+    </div>
+    <pre class="terminal__body" x-ref="snippet"><code>cp .env.example .env
+cargo run</code></pre>
+  </div>
+
+  <p class="section__note">
+    Point <code>DATABASE_URL</code> at your Postgres instance. The app creates the database when it
+    does not exist yet and applies pending migrations on boot.
+  </p>
+</section>
+{% endblock %}

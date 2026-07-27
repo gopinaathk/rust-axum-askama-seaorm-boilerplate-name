@@ -1,0 +1,141 @@
+{% extends "layout.html" %}
+
+{% block title %}Dashboard — {{ nav.app_name }}{% endblock %}
+
+{% block description %}Your account details and the session you are currently signed in with.{% endblock %}
+
+{% block content %}
+<section class="page-head">
+  <div>
+    <p class="eyebrow">Signed in</p>
+    <h1 class="page-head__title">Hello, {{ user.name }}</h1>
+    <p class="page-head__lead">
+      Account created {{ user.created_at }} · member for {{ user.member_since }}.
+    </p>
+  </div>
+
+  <form class="page-head__action" method="post" action="/sign-out" x-data="submitGuard" x-on:submit="lock()">
+    <input type="hidden" name="csrf_token" value="{{ nav.csrf_token }}" />
+    <button class="btn btn--danger" type="submit" x-bind:disabled="busy">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+        <polyline points="16 17 21 12 16 7" />
+        <line x1="21" y1="12" x2="9" y2="12" />
+      </svg>
+      <span x-text="busy ? 'Signing out…' : 'Sign out'">Sign out</span>
+    </button>
+  </form>
+</section>
+
+<div class="grid grid--2">
+  <article class="card card--panel">
+    <header class="card__head">
+      <span class="card__icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+          <circle cx="12" cy="7" r="4" />
+        </svg>
+      </span>
+      <h2 class="card__title">User details</h2>
+    </header>
+
+    <div class="identity">
+      <span class="avatar avatar--lg" aria-hidden="true">{{ nav.initials }}</span>
+      <div>
+        <p class="identity__name">{{ user.name }}</p>
+        <p class="identity__email">{{ user.email }}</p>
+      </div>
+    </div>
+
+    <dl class="kv">
+      <div class="kv__row">
+        <dt>User ID</dt>
+        <dd><code>{{ user.id }}</code></dd>
+      </div>
+      <div class="kv__row">
+        <dt>Email</dt>
+        <dd>{{ user.email }}</dd>
+      </div>
+      <div class="kv__row">
+        <dt>Created</dt>
+        <dd>{{ user.created_at }}</dd>
+      </div>
+      <div class="kv__row">
+        <dt>Last updated</dt>
+        <dd>{{ user.updated_at }}</dd>
+      </div>
+      <div class="kv__row">
+        <dt>Password</dt>
+        <dd><span class="badge">Argon2id hash</span></dd>
+      </div>
+    </dl>
+  </article>
+
+  <article class="card card--panel" x-data="copyable">
+    <header class="card__head">
+      <span class="card__icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="9" />
+          <polyline points="12 7 12 12 16 14" />
+        </svg>
+      </span>
+      <h2 class="card__title">Current session</h2>
+      <span class="badge badge--success">Active</span>
+    </header>
+
+    <dl class="kv">
+      <div class="kv__row">
+        <dt>Session ID</dt>
+        <dd class="kv__inline">
+          <code x-ref="sid" title="{{ session.id }}">{{ session.short_id }}</code>
+          <button class="btn btn--ghost btn--xs" type="button" x-on:click="copy('{{ session.id }}')">
+            <span x-text="copied ? 'Copied' : 'Copy'">Copy</span>
+          </button>
+        </dd>
+      </div>
+      <div class="kv__row">
+        <dt>Signed in at</dt>
+        <dd>{{ session.signed_in_at }}</dd>
+      </div>
+      <div class="kv__row">
+        <dt>Expires</dt>
+        <dd>{{ session.expires_at }} <span class="muted">(in {{ session.expires_in }})</span></dd>
+      </div>
+      <div class="kv__row">
+        <dt>Timezone</dt>
+        <dd><code>{{ session.timezone }}</code></dd>
+      </div>
+      <div class="kv__row">
+        <dt>Cookie</dt>
+        <dd>
+          <code>{{ session.cookie_name }}</code>
+          {% if session.secure_cookie %}
+          <span class="badge badge--success">Secure</span>
+          {% else %}
+          <span class="badge badge--warn">Not secure (dev)</span>
+          {% endif %}
+        </dd>
+      </div>
+      <div class="kv__row">
+        <dt>IP address</dt>
+        <dd><code>{{ session.ip_address }}</code></dd>
+      </div>
+      <div class="kv__row">
+        <dt>User agent</dt>
+        <dd class="kv__wrap">{{ session.user_agent }}</dd>
+      </div>
+      <div class="kv__row">
+        <dt>Stored in</dt>
+        <dd>
+          <span class="badge">{{ session.backend }}</span>
+          <span class="muted">{{ session.backend_detail }}</span>
+        </dd>
+      </div>
+    </dl>
+
+    <p class="card__note">
+      Signing out deletes this row, so the cookie cannot be replayed afterwards.
+    </p>
+  </article>
+</div>
+{% endblock %}

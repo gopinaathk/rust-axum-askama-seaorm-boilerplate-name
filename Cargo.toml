@@ -1,0 +1,76 @@
+[package]
+name = "rust-askama"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.85"
+description = "Production-shaped Axum + Askama + SeaORM boilerplate with session based authentication"
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/your-user/rust-axum-askama-seaorm-boilerplate"
+keywords = ["axum", "askama", "seaorm", "authentication", "boilerplate"]
+publish = false
+
+[workspace]
+members = [".", "migration"]
+
+[lib]
+name = "rust_askama"
+path = "src/lib.rs"
+
+[[bin]]
+name = "rust-askama"
+path = "src/main.rs"
+
+[dependencies]
+migration = { path = "migration" }
+
+# web layer
+axum = { version = "0.8", features = ["macros"] }
+tokio = { version = "1", features = ["macros", "rt-multi-thread", "signal", "time"] }
+tower = "0.5"
+tower-http = { version = "0.6", features = ["fs", "trace", "set-header"] }
+tower-sessions = "0.15"
+
+# templating
+askama = "0.16"
+askama_web = { version = "0.16", features = ["axum-0.8"] }
+
+# persistence
+sea-orm = { version = "2.0", features = [
+    "sqlx-postgres",
+    "runtime-tokio-rustls",
+    "macros",
+    "with-chrono",
+    "with-time",
+    "with-json",
+] }
+
+# optional session backend
+redis = { version = "1", features = ["tokio-comp", "connection-manager"] }
+
+# security
+argon2 = "0.5"
+# `getrandom` gives us `OsRng` for salt generation.
+password-hash = { version = "0.5", features = ["getrandom"] }
+
+# development live reload
+notify = "8"
+tokio-stream = { version = "0.1", features = ["sync"] }
+
+# plumbing
+async-trait = "0.1"
+chrono = { version = "0.4", features = ["serde"] }
+chrono-tz = "0.10"
+dotenvy = "0.15"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+thiserror = "2"
+time = "0.3"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+uuid = { version = "1", features = ["v4"] }
+
+[profile.release]
+codegen-units = 1
+lto = "thin"
+strip = true

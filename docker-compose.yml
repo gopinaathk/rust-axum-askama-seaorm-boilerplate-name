@@ -1,0 +1,45 @@
+# Datastores for local development. The app itself runs with `cargo run`.
+#
+#   docker compose up -d
+#
+# Match these credentials with your .env file.
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: rust_askama_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      # The app creates its own database on boot, so none is declared here.
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: rust_askama_redis
+    restart: unless-stopped
+    # Drop `--requirepass` if you want a password-free local cache, and clear
+    # REDIS_PASSWORD in .env to match.
+    command: ["redis-server", "--requirepass", "redis", "--appendonly", "yes"]
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "redis", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
+  redis_data:

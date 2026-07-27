@@ -1,5 +1,13 @@
 # Axum + Askama Auth Starter
 
+[![CI](https://github.com/gopinaathk/rust-axum-askama-seaorm-boilerplate/actions/workflows/ci.yml/badge.svg)](https://github.com/gopinaathk/rust-axum-askama-seaorm-boilerplate/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-22c55e.svg)](LICENSE)
+[![Rust](https://img.shields.io/badge/rust-1.85%2B-orange.svg?logo=rust)](https://www.rust-lang.org)
+[![Axum](https://img.shields.io/badge/axum-0.8-000000.svg)](https://github.com/tokio-rs/axum)
+[![SeaORM](https://img.shields.io/badge/SeaORM-2.0-2d3748.svg)](https://www.sea-ql.org/SeaORM/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-14%2B-4169e1.svg?logo=postgresql&logoColor=white)](https://www.postgresql.org)
+[![PRs welcome](https://img.shields.io/badge/PRs-welcome-22c55e.svg)](https://github.com/gopinaathk/rust-axum-askama-seaorm-boilerplate/pulls)
+
 A production-shaped Rust web starter: **Axum** routing, **Askama** server-rendered templates, **SeaORM** on **PostgreSQL**, **Alpine.js** for interactions, and **session based authentication** (register, sign in, sign out) with sessions stored in **Postgres or Redis**.
 
 No JavaScript build step. No SPA. Just typed templates, hand-written CSS, and a small Alpine layer.
@@ -88,7 +96,7 @@ Axum 0.8 · Askama 0.16 · SeaORM 2.0 · tower-sessions 0.15 · Alpine.js 3 · A
 **Requirements:** Rust 1.85+, PostgreSQL 14+, and Redis only if you pick the Redis session backend.
 
 ```bash
-git clone https://github.com/your-user/rust-axum-askama-seaorm-boilerplate.git
+git clone https://github.com/gopinaathk/rust-axum-askama-seaorm-boilerplate.git
 cd rust-axum-askama-seaorm-boilerplate
 cp .env.example .env      # Windows: copy .env.example .env
 # edit .env: DB_USERNAME / DB_PASSWORD / DB_NAME

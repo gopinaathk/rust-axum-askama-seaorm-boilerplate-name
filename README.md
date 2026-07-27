@@ -1,13 +1,16 @@
 # 🦀 Axum + Askama Auth Starter
 
-[![CI](https://github.com/gopinaathk/rust-axum-askama-seaorm-boilerplate/actions/workflows/ci.yml/badge.svg)](https://github.com/gopinaathk/rust-axum-askama-seaorm-boilerplate/actions/workflows/ci.yml)
-[![License: MIT](https://img.shields.io/badge/License-MIT-22c55e.svg)](LICENSE)
-[![Rust](https://img.shields.io/badge/rust-1.85%2B-orange.svg?logo=rust)](https://www.rust-lang.org)
-[![Axum](https://img.shields.io/badge/axum-0.8-000000.svg)](https://github.com/tokio-rs/axum)
-[![SeaORM](https://img.shields.io/badge/SeaORM-2.0-2d3748.svg)](https://www.sea-ql.org/SeaORM/)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-14%2B-4169e1.svg?logo=postgresql&logoColor=white)](https://www.postgresql.org)
-[![Redis](https://img.shields.io/badge/Redis-optional-dc382d.svg?logo=redis&logoColor=white)](https://redis.io)
-[![PRs welcome](https://img.shields.io/badge/PRs-welcome-22c55e.svg)](https://github.com/gopinaathk/rust-axum-askama-seaorm-boilerplate/pulls)
+[![CI](https://img.shields.io/github/actions/workflow/status/gopinaathk/rust-axum-askama-seaorm-boilerplate/ci.yml?branch=main&style=for-the-badge&logo=githubactions&logoColor=white&label=CI)](https://github.com/gopinaathk/rust-axum-askama-seaorm-boilerplate/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](LICENSE)
+[![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=for-the-badge)](https://github.com/gopinaathk/rust-axum-askama-seaorm-boilerplate/pulls)
+
+[![Rust](https://img.shields.io/badge/rust-%23000000.svg?style=for-the-badge&logo=rust&logoColor=white)](https://www.rust-lang.org)
+[![Axum](https://img.shields.io/badge/axum-0.8-%23000000.svg?style=for-the-badge&logo=rust&logoColor=white)](https://github.com/tokio-rs/axum)
+[![Askama](https://img.shields.io/badge/askama-0.16-%23B7410E.svg?style=for-the-badge&logo=rust&logoColor=white)](https://github.com/askama-rs/askama)
+[![SeaORM](https://img.shields.io/badge/SeaORM-2.0-%232d3748.svg?style=for-the-badge)](https://www.sea-ql.org/SeaORM/)
+[![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org)
+[![Redis](https://img.shields.io/badge/redis-%23DD0031.svg?style=for-the-badge&logo=redis&logoColor=white)](https://redis.io)
+[![Alpine.js](https://img.shields.io/badge/Alpine.js-%238BC0D0.svg?style=for-the-badge&logo=alpinedotjs&logoColor=%23000000)](https://alpinejs.dev)
 
 A production-shaped Rust web starter: **Axum** routing, **Askama** server-rendered templates, **SeaORM** on **PostgreSQL**, **Alpine.js** for interactions, and **session based authentication** (register, sign in, sign out) with sessions stored in **Postgres or Redis**.
 

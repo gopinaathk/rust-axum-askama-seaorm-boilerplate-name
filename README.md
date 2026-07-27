@@ -300,7 +300,7 @@ Timestamps are stored as `timestamptz` (UTC) and converted only for display, so 
 
 ## 🔥 Live reload
 
-In development the browser refreshes automatically when you edit a template, stylesheet or script — no manual reload, no restart for asset changes.
+In development the browser refreshes automatically when you edit a template, stylesheet or script - no manual reload, no restart for asset changes.
 
 - A file watcher on `static/` and `templates/` pushes a `reload` event over Server-Sent Events (`/dev/live-reload`).
 - After a Rust rebuild the stream drops; the browser reconnects, sees a new boot id, and reloads itself.
@@ -412,7 +412,7 @@ Contributions are welcome!
 2. Make your change and keep it green: `cargo fmt`, `cargo clippy --all-targets`, `cargo test`
 3. Open a pull request describing what and why
 
-Please keep the layered architecture intact — handlers call services, services call repositories, repositories own SeaORM.
+Please keep the layered architecture intact - handlers call services, services call repositories, repositories own SeaORM.
 
 ---
 

@@ -1,6 +1,5 @@
 # 🦀 Axum + Askama Auth Starter
 
-[![CI](https://github.com/gopinaathk/rust-axum-askama-seaorm-boilerplate-name/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/gopinaathk/rust-axum-askama-seaorm-boilerplate-name/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](LICENSE)
 [![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=for-the-badge)](https://github.com/gopinaathk/rust-axum-askama-seaorm-boilerplate-name/pulls)
 

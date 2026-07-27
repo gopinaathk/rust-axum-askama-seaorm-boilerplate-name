@@ -6,7 +6,7 @@ rust-version = "1.85"
 description = "Production-shaped Axum + Askama + SeaORM boilerplate with session based authentication"
 license = "MIT"
 readme = "README.md"
-repository = "https://github.com/gopinaathk/rust-axum-askama-seaorm-boilerplate"
+repository = "https://github.com/gopinaathk/rust-axum-askama-seaorm-boilerplate-name"
 keywords = ["axum", "askama", "seaorm", "authentication", "boilerplate"]
 publish = false
 

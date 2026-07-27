@@ -1,4 +1,4 @@
-# Axum + Askama Auth Starter
+# 🦀 Axum + Askama Auth Starter
 
 [![CI](https://github.com/gopinaathk/rust-axum-askama-seaorm-boilerplate/actions/workflows/ci.yml/badge.svg)](https://github.com/gopinaathk/rust-axum-askama-seaorm-boilerplate/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-22c55e.svg)](LICENSE)
@@ -6,11 +6,12 @@
 [![Axum](https://img.shields.io/badge/axum-0.8-000000.svg)](https://github.com/tokio-rs/axum)
 [![SeaORM](https://img.shields.io/badge/SeaORM-2.0-2d3748.svg)](https://www.sea-ql.org/SeaORM/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-14%2B-4169e1.svg?logo=postgresql&logoColor=white)](https://www.postgresql.org)
+[![Redis](https://img.shields.io/badge/Redis-optional-dc382d.svg?logo=redis&logoColor=white)](https://redis.io)
 [![PRs welcome](https://img.shields.io/badge/PRs-welcome-22c55e.svg)](https://github.com/gopinaathk/rust-axum-askama-seaorm-boilerplate/pulls)
 
 A production-shaped Rust web starter: **Axum** routing, **Askama** server-rendered templates, **SeaORM** on **PostgreSQL**, **Alpine.js** for interactions, and **session based authentication** (register, sign in, sign out) with sessions stored in **Postgres or Redis**.
 
-No JavaScript build step. No SPA. Just typed templates, hand-written CSS, and a small Alpine layer.
+🚫 No JavaScript build step. 🚫 No SPA. ✅ Just typed templates, hand-written CSS, and a small Alpine layer.
 
 ```
 Axum 0.8 · Askama 0.16 · SeaORM 2.0 · tower-sessions 0.15 · Alpine.js 3 · Argon2id
@@ -18,28 +19,33 @@ Axum 0.8 · Askama 0.16 · SeaORM 2.0 · tower-sessions 0.15 · Alpine.js 3 · A
 
 ---
 
-## Contents
+## 📚 Contents
 
-- [Features](#features)
-- [Screens](#screens)
-- [Quick start](#quick-start)
-- [Configuration](#configuration)
-- [Project structure](#project-structure)
-- [How authentication works](#how-authentication-works)
-- [Session backends](#session-backends)
-- [Database and migrations](#database-and-migrations)
-- [Timezones](#timezones)
-- [Health checks](#health-checks)
-- [Security notes](#security-notes)
-- [Testing](#testing)
-- [Deploying](#deploying)
-- [License](#license)
+- [✨ Features](#-features)
+- [🧰 Tech stack](#-tech-stack)
+- [🖥️ Screens](#️-screens)
+- [🚀 Quick start](#-quick-start)
+- [⚙️ Configuration](#️-configuration)
+- [🗂️ Project structure](#️-project-structure)
+- [🔐 How authentication works](#-how-authentication-works)
+- [💾 Session backends](#-session-backends)
+- [🐘 Database and migrations](#-database-and-migrations)
+- [🌏 Timezones](#-timezones)
+- [🔥 Live reload](#-live-reload)
+- [🩺 Health checks](#-health-checks)
+- [🛡️ Security notes](#️-security-notes)
+- [🧪 Testing](#-testing)
+- [📦 Deploying](#-deploying)
+- [🗺️ Roadmap](#️-roadmap)
+- [🤝 Contributing](#-contributing)
+- [🙏 Acknowledgements](#-acknowledgements)
+- [📄 License](#-license)
 
 ---
 
-## Features
+## ✨ Features
 
-**Authentication**
+### 🔐 Authentication
 - Register with name, email and password; sign in; sign out
 - Argon2id password hashing, run on a blocking thread so the runtime stays responsive
 - Session id rotation on sign-in (session fixation defence)
@@ -47,31 +53,32 @@ Axum 0.8 · Askama 0.16 · SeaORM 2.0 · tower-sessions 0.15 · Alpine.js 3 · A
 - Timing-equalised login: unknown emails cost the same as wrong passwords
 - Guard extractors: `CurrentUser` (redirects guests) and `MaybeUser` (optional)
 
-**Sessions**
+### 💾 Sessions
 - Server-side sessions via `tower-sessions`, backed by **Postgres** or **Redis** (`SESSION_STORE`)
 - Sliding inactivity expiry, `HttpOnly` + `SameSite=Lax` cookies, `Secure` by default in production
 - Expired Postgres rows swept by a background task; Redis expires keys itself
 - Dashboard shows the live session: id, created time, expiry, cookie name, client IP, user agent, storage backend
 
-**Data**
+### 🐘 Data
 - SeaORM entities with a separate `migration` crate
 - Database is created automatically on first boot when it does not exist
 - Pending migrations applied on boot (`DB_RUN_MIGRATIONS`)
 - Connection parts configured separately (`DB_HOST`, `DB_PORT`, `DB_USERNAME`, …), with `DATABASE_URL` as an override for managed platforms
 
-**Web layer**
+### 🌐 Web layer
 - Askama templates compiled and type-checked with your Rust code
 - Flash messages that survive redirects
 - Styled error pages (404 / 403 / 422 / 500) instead of bare text
 - Static files served from `/static`, security headers set globally
 - Graceful shutdown on Ctrl+C and SIGTERM
 
-**Frontend, no bundler**
+### 🎨 Frontend, no bundler
 - Hand-written CSS with design tokens, dark and light themes (respects `prefers-color-scheme`, remembers the choice)
 - Alpine.js components: theme toggle, mobile nav, password visibility, password strength meter, submit guard, copy-to-clipboard, dismissible alerts
-- Accessibility basics: skip link, visible focus rings, labelled inputs, `prefers-reduced-motion`, SVG icons (no emoji)
+- Accessibility basics: skip link, visible focus rings, labelled inputs, `prefers-reduced-motion`, SVG icons
 
-**Operations**
+### 🛠️ Operations
+- 🔥 Development live reload for templates and assets (no restart)
 - `/health` HTML status page, `/healthz` text probe, `/healthz.json` for dashboards
 - `APP_ENV` profiles (`development` / `production`) that shift defaults
 - Structured logs through `tracing`, filtered with `RUST_LOG`
@@ -79,7 +86,23 @@ Axum 0.8 · Askama 0.16 · SeaORM 2.0 · tower-sessions 0.15 · Alpine.js 3 · A
 
 ---
 
-## Screens
+## 🧰 Tech stack
+
+| Layer | Choice | Why |
+| --- | --- | --- |
+| 🕸️ HTTP | [Axum](https://github.com/tokio-rs/axum) 0.8 | Ergonomic, Tower ecosystem, first-class async |
+| 📄 Templates | [Askama](https://github.com/askama-rs/askama) 0.16 | Jinja-like, compiled and type-checked at build time |
+| 🐘 ORM | [SeaORM](https://www.sea-ql.org/SeaORM/) 2.0 | Async, entity + migration story, Postgres support |
+| 🗄️ Database | [PostgreSQL](https://www.postgresql.org) 14+ | Reliable default, `timestamptz`, JSON |
+| 🔑 Sessions | [tower-sessions](https://github.com/maxcountryman/tower-sessions) 0.15 | Pluggable stores, cookie handling done right |
+| ⚡ Cache | [Redis](https://redis.io) 7 (optional) | TTL-native session store |
+| 🔒 Hashing | [argon2](https://docs.rs/argon2) | Memory-hard, current best practice |
+| 🎭 Interactions | [Alpine.js](https://alpinejs.dev) 3 | Sprinkle of JS without a build step |
+| 🏃 Runtime | [Tokio](https://tokio.rs) | The async runtime |
+
+---
+
+## 🖥️ Screens
 
 | Route | Purpose |
 | --- | --- |
@@ -91,7 +114,7 @@ Axum 0.8 · Askama 0.16 · SeaORM 2.0 · tower-sessions 0.15 · Alpine.js 3 · A
 
 ---
 
-## Quick start
+## 🚀 Quick start
 
 **Requirements:** Rust 1.85+, PostgreSQL 14+, and Redis only if you pick the Redis session backend.
 
@@ -103,7 +126,7 @@ cp .env.example .env      # Windows: copy .env.example .env
 cargo run
 ```
 
-Open <http://127.0.0.1:3000>.
+Open 👉 <http://127.0.0.1:3000>.
 
 On first boot the app creates the database if it is missing, applies migrations, and starts serving. If you prefer containers for the datastores:
 
@@ -111,15 +134,15 @@ On first boot the app creates the database if it is missing, applies migrations,
 docker compose up -d          # Postgres on 5432, Redis on 6379
 ```
 
-> `.env` values containing spaces must be quoted, e.g. `APP_NAME="Rust Askama"`. An unquoted space makes the parser stop and everything after that line falls back to defaults.
+> ⚠️ `.env` values containing spaces must be quoted, e.g. `APP_NAME="Rust Askama"`. An unquoted space makes the parser stop and everything after that line falls back to defaults.
 
 ---
 
-## Configuration
+## ⚙️ Configuration
 
 All configuration is read once at boot from the environment. See [`.env.example`](.env.example) for the annotated list.
 
-### Application
+### 🧩 Application
 
 | Variable | Default | Notes |
 | --- | --- | --- |
@@ -131,7 +154,7 @@ All configuration is read once at boot from the environment. See [`.env.example`
 | `TRUST_PROXY` | `false` | Trust `X-Forwarded-For` / `X-Real-IP` (only behind your own proxy) |
 | `RUST_LOG` | `rust_askama=debug,…` | `tracing` filter |
 
-### Database
+### 🐘 Database
 
 | Variable | Default | Notes |
 | --- | --- | --- |
@@ -148,7 +171,7 @@ All configuration is read once at boot from the environment. See [`.env.example`
 | `DB_CONNECT_TIMEOUT_SECS` | `8` | |
 | `DATABASE_URL` | *(unset)* | Full URL; overrides every `DB_*` value above |
 
-### Sessions and Redis
+### 🔑 Sessions and Redis
 
 | Variable | Default | Notes |
 | --- | --- | --- |
@@ -163,9 +186,16 @@ All configuration is read once at boot from the environment. See [`.env.example`
 | `REDIS_KEY_PREFIX` | `rust_askama:session:` | |
 | `REDIS_URL` | *(unset)* | Full URL; overrides every `REDIS_*` value above |
 
+### 🔥 Development
+
+| Variable | Default | Notes |
+| --- | --- | --- |
+| `DEV_LIVE_RELOAD` | `true` in dev | Serve the reload stream and inject its client script |
+| `DEV_WATCH_PATHS` | `static,templates` | Comma-separated directories to watch |
+
 ---
 
-## Project structure
+## 🗂️ Project structure
 
 ```
 .
@@ -182,6 +212,7 @@ All configuration is read once at boot from the environment. See [`.env.example`
 │   │   ├── redis.rs               # Redis parts -> URL
 │   │   ├── server.rs              # Bind address, static dir
 │   │   ├── session.rs             # Cookie, TTL, backend selection
+│   │   ├── dev.rs                 # Live reload settings
 │   │   └── env_vars.rs            # Typed env readers
 │   ├── db/mod.rs                  # Create database, connect, migrate
 │   ├── entities/                  # SeaORM models (users, sessions)
@@ -199,6 +230,7 @@ All configuration is read once at boot from the environment. See [`.env.example`
 │   │   ├── session.rs             # Session keys, client info, views
 │   │   ├── csrf.rs                # Token mint + constant-time verify
 │   │   ├── flash.rs               # One-shot messages
+│   │   ├── dev.rs                 # Live reload SSE + file watcher
 │   │   └── templates.rs           # Askama template structs
 │   ├── error.rs                   # AppError -> HTML error pages
 │   ├── state.rs                   # AppState (db, config, store, uptime)
@@ -212,7 +244,7 @@ The dependency direction is one-way: `web` → `services` → `repositories` →
 
 ---
 
-## How authentication works
+## 🔐 How authentication works
 
 1. `GET /register` renders the form and mints a CSRF token into the session.
 2. `POST /register` verifies the token, validates the input, hashes the password with Argon2id on a blocking thread, inserts the user, rotates the session id, and stores `user_id` plus sign-in metadata.
@@ -223,7 +255,7 @@ Failed submissions re-render the same page with `422 Unprocessable Entity`, the 
 
 ---
 
-## Session backends
+## 💾 Session backends
 
 ```bash
 SESSION_STORE=postgres   # durable, queryable, swept by a background task
@@ -234,7 +266,7 @@ Both implement `tower_sessions::SessionStore` and are wrapped by `AppSessionStor
 
 ---
 
-## Database and migrations
+## 🐘 Database and migrations
 
 Migrations live in their own crate and can be driven from the CLI:
 
@@ -251,7 +283,7 @@ To add a table: create `migration/src/mYYYYMMDD_HHMMSS_name.rs`, register it in 
 
 ---
 
-## Timezones
+## 🌏 Timezones
 
 `APP_TIMEZONE` accepts any IANA zone and every rendered timestamp uses it, abbreviation included:
 
@@ -264,7 +296,25 @@ Timestamps are stored as `timestamptz` (UTC) and converted only for display, so 
 
 ---
 
-## Health checks
+## 🔥 Live reload
+
+In development the browser refreshes automatically when you edit a template, stylesheet or script — no manual reload, no restart for asset changes.
+
+- A file watcher on `static/` and `templates/` pushes a `reload` event over Server-Sent Events (`/dev/live-reload`).
+- After a Rust rebuild the stream drops; the browser reconnects, sees a new boot id, and reloads itself.
+
+For automatic rebuilds on Rust changes, pair it with [`cargo-watch`](https://github.com/watchexec/cargo-watch):
+
+```bash
+cargo install cargo-watch
+cargo watch -x run
+```
+
+Live reload is disabled automatically when `APP_ENV=production`, or explicitly with `DEV_LIVE_RELOAD=false`. The `/dev/live-reload` route returns `404` when disabled.
+
+---
+
+## 🩺 Health checks
 
 | Endpoint | Response |
 | --- | --- |
@@ -274,23 +324,37 @@ Timestamps are stored as `timestamptz` (UTC) and converted only for display, so 
 
 Both probes check Postgres and the active session backend, so `503` means a dependency is actually down.
 
+```json
+{
+  "status": "ok",
+  "version": "0.1.0",
+  "environment": "development",
+  "timezone": "Asia/Kolkata",
+  "uptime_seconds": 55,
+  "checks": {
+    "database": { "healthy": true, "latency_ms": 0, "detail": "Postgres · localhost:5432 · rust-axum-askama" },
+    "session_store": { "healthy": true, "backend": "redis", "latency_ms": 0, "detail": "Redis · 127.0.0.1:6379" }
+  }
+}
+```
+
 ---
 
-## Security notes
+## 🛡️ Security notes
 
-- Passwords are hashed with Argon2id (`argon2` crate defaults); the hash never leaves the repository layer, and `users::Model` is intentionally not `Serialize`.
-- Session ids rotate on sign-in; sign-out deletes the stored record so a copied cookie cannot be replayed.
-- Cookies are `HttpOnly` and `SameSite=Lax`, and `Secure` whenever `APP_ENV=production` (a warning is logged if you disable it there).
-- Forms carry a per-session CSRF token, compared in constant time.
-- `X-Forwarded-For` is ignored unless `TRUST_PROXY=true`, because any client can send it.
-- Database identifiers are quoted and credentials percent-encoded when URLs are assembled.
-- Responses carry `X-Content-Type-Options: nosniff` and `Referrer-Policy: strict-origin-when-cross-origin`.
+- 🔒 Passwords are hashed with Argon2id (`argon2` crate defaults); the hash never leaves the repository layer, and `users::Model` is intentionally not `Serialize`.
+- 🔁 Session ids rotate on sign-in; sign-out deletes the stored record so a copied cookie cannot be replayed.
+- 🍪 Cookies are `HttpOnly` and `SameSite=Lax`, and `Secure` whenever `APP_ENV=production` (a warning is logged if you disable it there).
+- 🎫 Forms carry a per-session CSRF token, compared in constant time.
+- 🕵️ `X-Forwarded-For` is ignored unless `TRUST_PROXY=true`, because any client can send it.
+- 🧱 Database identifiers are quoted and credentials percent-encoded when URLs are assembled.
+- 📋 Responses carry `X-Content-Type-Options: nosniff` and `Referrer-Policy: strict-origin-when-cross-origin`.
 
 Before going live: serve over TLS, set `APP_ENV=production`, keep `SESSION_COOKIE_SECURE=true`, and consider rate limiting the auth routes (this starter does not include it).
 
 ---
 
-## Testing
+## 🧪 Testing
 
 ```bash
 cargo test           # unit tests: config, validation, CSRF, password hashing
@@ -302,7 +366,7 @@ The unit tests need no database. Password hashing tests run real Argon2, so they
 
 ---
 
-## Deploying
+## 📦 Deploying
 
 ```bash
 cargo build --release
@@ -326,10 +390,42 @@ Point your orchestrator's liveness probe at `/healthz`.
 
 ---
 
-## License
+## 🗺️ Roadmap
 
-MIT. See [LICENSE](LICENSE).
+Ideas that would fit the starter's scope. PRs welcome.
+
+- [ ] Email verification and password reset flows
+- [ ] Rate limiting on the auth routes
+- [ ] "Remember me" and "sign out everywhere"
+- [ ] Role-based authorization example
+- [ ] Dockerfile for the app image (compose currently covers datastores only)
 
 ---
 
-<sub>Keywords: rust web starter, axum boilerplate, askama templates, seaorm postgres, session authentication, argon2, alpine.js, server side rendering, tower-sessions, redis sessions.</sub>
+## 🤝 Contributing
+
+Contributions are welcome!
+
+1. Fork and create a branch: `git checkout -b feature/my-change`
+2. Make your change and keep it green: `cargo fmt`, `cargo clippy --all-targets`, `cargo test`
+3. Open a pull request describing what and why
+
+Please keep the layered architecture intact — handlers call services, services call repositories, repositories own SeaORM.
+
+---
+
+## 🙏 Acknowledgements
+
+Built on the work of the [Tokio](https://tokio.rs), [Axum](https://github.com/tokio-rs/axum), [Askama](https://github.com/askama-rs/askama), [SeaORM](https://www.sea-ql.org/SeaORM/), [tower-sessions](https://github.com/maxcountryman/tower-sessions) and [Alpine.js](https://alpinejs.dev) teams.
+
+---
+
+## 📄 License
+
+MIT © [gopinaathk](https://github.com/gopinaathk). See [LICENSE](LICENSE).
+
+---
+
+<sub>⭐ If this saved you time, consider starring the repo.</sub>
+
+<sub>Keywords: rust web starter, axum boilerplate, askama templates, seaorm postgres, session authentication, argon2, alpine.js, server side rendering, tower-sessions, redis sessions, live reload.</sub>
